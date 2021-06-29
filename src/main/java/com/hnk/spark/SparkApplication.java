@@ -21,18 +21,12 @@ public class SparkApplication {
 
         JavaSparkContext sparkContext = new JavaSparkContext(sparkConf);
 
-        JavaRDD<String> lines = sparkContext.textFile("/Users/hounaikuo/Documents/project/map-reduce/data/word").cache();
-
-        lines.map((Function<String, Object>) s -> s);
-
-        JavaRDD<String> words = lines.flatMap((FlatMapFunction<String, String>) s -> Arrays.asList(SPACE.split(s)).iterator());
-
-        JavaPairRDD<String, Integer> wordsOnes = words.mapToPair((PairFunction<String, String, Integer>) s -> new Tuple2<String, Integer>(s, 1));
-
-        JavaPairRDD<String, Integer> wordsCounts = wordsOnes.reduceByKey((Function2<Integer, Integer, Integer>) (value, toValue) -> value + toValue);
-
-        wordsCounts.saveAsTextFile("/Users/hounaikuo/Documents/project/map-reduce/data/fordata");
+        JavaRDD<String> textFile = sparkContext.textFile("/Users/hounaikuo/Documents/project/map-reduce/data/word");
+        JavaPairRDD<String, Integer> counts = textFile
+                .flatMap(s -> Arrays.asList(s.split(" ")).iterator())
+                .mapToPair(word -> new Tuple2<>(word, 1))
+                .reduceByKey((a, b) -> a + b);
+        counts.saveAsTextFile("/Users/hounaikuo/Documents/project/map-reduce/data/fordata");
     }
-
 
 }

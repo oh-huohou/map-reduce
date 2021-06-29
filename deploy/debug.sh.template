@@ -1,5 +1,6 @@
 #!/usr/bin/env sh 
 
+spark-submit --master "local[3]" --executor-memory 512m --class com.hnk.SparkApplication  build/libs/map-reduce-1.0.jar
 
 docker run -ti -v /Users/naikuo/projects:/projects -p 4000:4000 -p 4040:4040 -e SPARK_SUBMIT_OPTS='-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=4000' epahomov/docker-spark /spark/bin/spark-submit  --master "local[5]"   --class com.hupo.roughstone.onepunch.pay.transaction.PayTransactionETL /projects/data-platform/one-punch/one-punch/build/libs/one-punch-0.1.1-SNAPSHOT-all.jar -s 2020-01-06T16:00:00Z -e 2020-01-08T16:59:59Z --fromOffset true -z 100
 docker run -ti -v /Users/naikuo/projects:/projects -p 4000:4000 -p 4040:4040 -e SPARK_SUBMIT_OPTS='-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=4000' epahomov/docker-spark /spark/bin/spark-submit  --master "local[5]"   --class com.hupo.roughstone.onepunch.pay.transaction.PayTransactionETLHistory /projects/data-platform/one-punch/one-punch/build/libs/one-punch-0.1.1-SNAPSHOT-all.jar -s 2019-07-30T15:00:00Z -e 2019-07-31T15:59:59Z --fromOffset true -z 10
