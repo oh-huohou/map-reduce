@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+docker run -ti -v /Users/hounaikuo/Documents/gitlab:/gitlab -p 4000:4000 -p 4040:4040 -e SPARK_SUBMIT_OPTS='-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=4000' epahomov/docker-spark /spark/bin/spark-submit  --master "local[5]"   --com.canaan.data.miner.job.StreamingWithKafka /gitlab/map-reduce/build/libs/map-reduce-1.0-SNAPSHOT.jar

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+    <!-- 日志文件存储位置 -->
+    <property name="log_dir" value="logs/"/>
+    <!-- 日志最大存活时间（天） -->
+    <property name="maxHistory" value="30"/>
+    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d [%p %t %X{ip} %X{flag} %F:%L] - %m%n %ex{8}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="trace" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <param name="file" value="${log_dir}/trace.log"/>
+        <param name="Encoding" value="UTF-8"/>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>TRACE</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log_dir}/trace.%d{yyyy-MM-dd}.log
+            </fileNamePattern>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d [%p %t %X{ip} %X{flag} %F:%L] - %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <param name="file" value="${log_dir}/debug.log"/>
+        <param name="Encoding" value="UTF-8"/>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log_dir}/debug.%d{yyyy-MM-dd}.log
+            </fileNamePattern>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d [%p %t %X{ip} %X{flag} %F:%L] - %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <param name="file" value="${log_dir}/info.log"/>
+        <param name="Encoding" value="UTF-8"/>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log_dir}/info.%d{yyyy-MM-dd}.log
+            </fileNamePattern>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d [%p %t %X{ip} %X{flag} %F:%L] - %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="warn" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <param name="file" value="${log_dir}/warn.log"/>
+        <param name="Encoding" value="UTF-8"/>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log_dir}/warn.%d{yyyy-MM-dd}.log
+            </fileNamePattern>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d [%p %t %X{ip} %X{flag} %F:%L] - %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <param name="file" value="${log_dir}/error.log"/>
+        <param name="Encoding" value="UTF-8"/>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log_dir}/error.%d{yyyy-MM-dd}.log
+            </fileNamePattern>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d [%p %t %X{ip} %X{flag} %F:%L] - %m%n %ex</pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="info"/>
+        <appender-ref ref="error"/>
+        <appender-ref ref="warn"/>
+        <appender-ref ref="debug"/>
+        <appender-ref ref="console"/>
+    </root>
+</configuration>
